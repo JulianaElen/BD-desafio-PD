@@ -49,33 +49,24 @@ app.get('/partners/nearby', (req, res) => {
 
   const geoJson = {
     type: "Point",
-    coordinates: [parseFloat(lon), parseFloat(lat)], };
+    coordinates: [parseFloat(lon), parseFloat(lat)],
+  };
 
-
-  const query = `
+  db.query(`
     SELECT id, trading_name, owner_name, document, coverage_area
     FROM partners
-    ORDER BY ST_Distance(
+    WHERE ST_Within(
       ST_GeomFromGeoJSON(coverage_area),
       ST_GeomFromGeoJSON('${JSON.stringify(geoJson)}')
     )
-    LIMIT 1;
-  `;
-
-  db.query(query, (err, results) => {
+  `, (err, results) => {
     if (err) {
       console.error("Erro ao buscar parceiros próximos:", err);
       return res.status(500).json({ error: "Erro ao buscar parceiros próximos." });
     }
-
-    if (results.length === 0) {
-      return res.status(404).json({ message: 'Nenhum parceiro encontrado próximo.' });
-    }
-
-    res.json(results[0]);
+    res.json(results);
   });
 });
-
 
 // Rota GET para buscar parceiro pelo ID
 app.get('/partner/:id', (req, res) => {

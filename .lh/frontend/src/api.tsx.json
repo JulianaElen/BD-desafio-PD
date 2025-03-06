@@ -1,0 +1,38 @@
+{
+    "sourceFile": "frontend/src/api.tsx",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 5,
+            "patches": [
+                {
+                    "date": 1741299624063,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1741299664546,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -29,9 +29,9 @@\n };\n \n export const getPartnerById = async (id: string) => {\n   try {\n-    const response = await api.get(`/partners/${id}`);\n+    const response = await api.get(`/partner/${id}`);\n     return response.data;\n   } catch (error) {\n     console.error('Erro ao buscar parceiro:', error);\n   }\n"
+                },
+                {
+                    "date": 1741299680178,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,8 +1,8 @@\n import axios from 'axios';\n \n const api = axios.create({\n-  baseURL: 'http://localhost:5000', // Endereço do seu backend (ajuste conforme necessário)\n+  baseURL: 'http://localhost:5000', \n });\n \n interface Partner {\n   id: string;\n"
+                },
+                {
+                    "date": 1741302229773,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,8 +1,8 @@\n import axios from 'axios';\n \n const api = axios.create({\n-  baseURL: 'http://localhost:5000', \n+  baseURL: 'http://localhost:3001', \n });\n \n interface Partner {\n   id: string;\n"
+                },
+                {
+                    "date": 1741302627157,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -47,4 +47,8 @@\n   } catch (error) {\n     console.error('Erro ao buscar parceiro próximo:', error);\n   }\n };\n+\n+export default api; \n+\n+export {}; \n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1741304004964,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -36,9 +36,8 @@\n     console.error('Erro ao buscar parceiro:', error);\n   }\n };\n \n-// Definindo tipos para lat e lon (número de ponto flutuante)\n export const getNearbyPartner = async (lat: number, lon: number) => {\n   try {\n     const response = await api.get('/partners/nearby', {\n       params: { lat, lon },\n"
+                }
+            ],
+            "date": 1741299624063,
+            "name": "Commit-0",
+            "content": "import axios from 'axios';\n\nconst api = axios.create({\n  baseURL: 'http://localhost:5000', // Endereço do seu backend (ajuste conforme necessário)\n});\n\ninterface Partner {\n  id: string;\n  tradingName: string;\n  ownerName: string;\n  document: string;\n  coverageArea: {\n    type: string;\n    coordinates: number[][][][];\n  };\n  address: {\n    type: string;\n    coordinates: number[];\n  };\n}\n\nexport const createPartner = async (partnerData: Partner) => {\n  try {\n    const response = await api.post('/partners', partnerData);\n    return response.data;\n  } catch (error) {\n    console.error('Erro ao criar parceiro:', error);\n  }\n};\n\nexport const getPartnerById = async (id: string) => {\n  try {\n    const response = await api.get(`/partners/${id}`);\n    return response.data;\n  } catch (error) {\n    console.error('Erro ao buscar parceiro:', error);\n  }\n};\n\n// Definindo tipos para lat e lon (número de ponto flutuante)\nexport const getNearbyPartner = async (lat: number, lon: number) => {\n  try {\n    const response = await api.get('/partners/nearby', {\n      params: { lat, lon },\n    });\n    return response.data;\n  } catch (error) {\n    console.error('Erro ao buscar parceiro próximo:', error);\n  }\n};\n"
+        }
+    ]
+}

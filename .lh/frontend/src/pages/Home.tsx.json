@@ -1,0 +1,22 @@
+{
+    "sourceFile": "frontend/src/pages/Home.tsx",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 1,
+            "patches": [
+                {
+                    "date": 1741299792245,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1741302452762,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,7 +1,42 @@\n-import React from 'react'\n+import React from 'react';\n+import { Link } from \"react-router-dom\";\n \n+const styles = {\n+  container: {\n+    display: 'flex' as 'flex', \n+    flexDirection: 'column' as 'column', \n+    alignItems: \"center\",\n+    justifyContent: \"center\",\n+    marginTop: \"50px\",\n+  },\n+  title: {\n+    fontFamily: 'Arial, sans-serif',\n+    color: '#333',\n+    fontSize: '2rem',\n+  },\n+  link: {\n+    textDecoration: 'none',\n+    color: \"white\",\n+    fontSize: '1.2rem',\n+    margin: '10px',\n+    backgroundColor: \"#007bff\",\n+    padding: \"10px\",\n+    borderRadius: \"5px\",\n+  },\n+  linkHover: {\n+    color: '#0056b3',\n+    textDecoration: 'underline',\n+    backgroundColor: \"#007b\",\n+  }\n+};\n+\n export default function Home() {\n   return (\n-    <div>Home</div>\n-  )\n+    <div style={styles.container}>\n+      <h1 style={styles.title}>Sistema de Parceiros ZÉ DELIVERY</h1>\n+      <Link to=\"/create\" style={styles.link}>Cadastrar Parceiro</Link>\n+      <Link to=\"/see\" style={styles.link}>Buscar Parceiros por id</Link>\n+      <Link to=\"/near\" style={styles.link}>Buscar Parceiro mais próximo</Link>\n+    </div>\n+  );\n }\n"
+                }
+            ],
+            "date": 1741299792245,
+            "name": "Commit-0",
+            "content": "import React from 'react'\n\nexport default function Home() {\n  return (\n    <div>Home</div>\n  )\n}\n"
+        }
+    ]
+}

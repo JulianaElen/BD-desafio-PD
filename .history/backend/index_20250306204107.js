@@ -9,7 +9,7 @@ const port = 3001;
 app.use(cors());
 app.use(bodyParser.json());
 
-// configuração da conexão (modifique conforme necessário)
+// configuração da conexão (modifique conforme necessario)
 const db = mysql.createConnection({
   host: 'localhost',
   user: 'root',
@@ -26,7 +26,7 @@ db.connect((err) => {
   console.log('Conectado ao banco de dados');
 });
 
-// Rota POST para criar um novo parceiro
+// Rota POST para criat um novo parceiro
 app.post('/partners', (req, res) => {
   const { trading_name, owner_name, document, coverage_area, address } = req.body;
 
@@ -44,38 +44,28 @@ app.get('/partners/nearby', (req, res) => {
   const { lat, lon } = req.query;
 
   if (!lat || !lon) {
-    return res.status(400).json({ error: "As coordenadas lat e lon são obrigatórias." });
+    return res.status(400).json({ message: 'Latitude e longitude são obrigatórios' });
   }
 
-  const geoJson = {
-    type: "Point",
-    coordinates: [parseFloat(lon), parseFloat(lat)], };
-
-
-  const query = `
+  const sql = `
     SELECT id, trading_name, owner_name, document, coverage_area
     FROM partners
     ORDER BY ST_Distance(
-      ST_GeomFromGeoJSON(coverage_area),
-      ST_GeomFromGeoJSON('${JSON.stringify(geoJson)}')
-    )
+      ST_GeomFromText(CONCAT('POINT(', '-1', ' ', '-1', ')'), 4326),
+      ST_GeomFromGeoJSON(coverage_area)
+    ) ASC
     LIMIT 1;
   `;
 
-  db.query(query, (err, results) => {
+  db.query(sql, [lon, lat, lon, lat], (err, results) => {
     if (err) {
-      console.error("Erro ao buscar parceiros próximos:", err);
-      return res.status(500).json({ error: "Erro ao buscar parceiros próximos." });
+      console.error("Erro ao buscar parceiro próximo", err);
+      res.status(500).json({ error: "Erro ao buscar parceiro próximo" });
+    } else {
+      res.json(results[0] || {});
     }
-
-    if (results.length === 0) {
-      return res.status(404).json({ message: 'Nenhum parceiro encontrado próximo.' });
-    }
-
-    res.json(results[0]);
   });
 });
-
 
 // Rota GET para buscar parceiro pelo ID
 app.get('/partner/:id', (req, res) => {
@@ -92,6 +82,12 @@ app.get('/partner/:id', (req, res) => {
     res.status(200).json(results[0]);
   });
 });
+
+
+
+
+
+
 
 // Iniciar o servidor
 app.listen(port, () => {
